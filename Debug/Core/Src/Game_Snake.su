@@ -1,0 +1,8 @@
+../Core/Src/Game_Snake.c:17:6:Game_Snake_Show_Tile_8x8	24	static
+../Core/Src/Game_Snake.c:25:6:Map_Clear	16	static
+../Core/Src/Game_Snake.c:35:6:Map_Update	32	static
+../Core/Src/Game_Snake.c:46:6:RandFood	16	static
+../Core/Src/Game_Snake.c:59:6:Game_Snake_GetFront	16	static
+../Core/Src/Game_Snake.c:71:9:Game_Snake_Advance	24	static
+../Core/Src/Game_Snake.c:121:6:Game_Snake_Play	64	static
+../Core/Src/Game_Snake.c:184:6:Game_Snake_Init	536	static

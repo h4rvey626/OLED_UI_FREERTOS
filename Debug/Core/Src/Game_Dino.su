@@ -1,0 +1,10 @@
+../Core/Src/Game_Dino.c:19:6:Show_Score	16	static
+../Core/Src/Game_Dino.c:27:6:Show_Ground	16	static
+../Core/Src/Game_Dino.c:57:6:Show_Barrier	16	static
+../Core/Src/Game_Dino.c:75:6:Show_Cloud	16	static
+../Core/Src/Game_Dino.c:88:6:Show_Dino	16	static
+../Core/Src/Game_Dino.c:109:5:isColliding	32	static
+../Core/Src/Game_Dino.c:135:5:DinoGame_Animation	16	static
+../Core/Src/Game_Dino.c:177:6:Dino_Tick	4	static
+../Core/Src/Game_Dino.c:216:6:DinoGame_Pos_Init	4	static
+../Core/Src/Game_Dino.c:225:6:Game_Dino_Init	16	static

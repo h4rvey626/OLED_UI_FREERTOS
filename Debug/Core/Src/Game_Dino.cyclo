@@ -1,0 +1,10 @@
+../Core/Src/Game_Dino.c:19:6:Show_Score	1
+../Core/Src/Game_Dino.c:27:6:Show_Ground	5
+../Core/Src/Game_Dino.c:57:6:Show_Barrier	2
+../Core/Src/Game_Dino.c:75:6:Show_Cloud	1
+../Core/Src/Game_Dino.c:88:6:Show_Dino	3
+../Core/Src/Game_Dino.c:109:5:isColliding	6
+../Core/Src/Game_Dino.c:135:5:DinoGame_Animation	6
+../Core/Src/Game_Dino.c:177:6:Dino_Tick	8
+../Core/Src/Game_Dino.c:216:6:DinoGame_Pos_Init	1
+../Core/Src/Game_Dino.c:225:6:Game_Dino_Init	2
