@@ -6,6 +6,7 @@
 #endif
 
 #include <stdint.h>
+#include "input.h"
 
 /* 自动息屏配置 */
 #define AUTO_SLEEP_ENABLED 1        // 是否启用自动息屏 (1=启用, 0=禁用)
@@ -71,6 +72,14 @@ typedef struct _MENU_HandleTypeDef // 选项结构体
 
 } MENU_HandleTypeDef;
 
+typedef enum UI_State
+{
+    UI_CLOCK,
+    UI_MENU,
+
+
+} UI_State;
+
 /**********************************************************/
 /* 宏函数 */
 
@@ -97,6 +106,7 @@ void MENU_ShowCursor(MENU_HandleTypeDef *hMENU);
 void MENU_ShowBorder(MENU_HandleTypeDef *hMENU);
 void MENU_DrawScrollBar(MENU_HandleTypeDef *hMENU);
 void MENU_DrawProgressBar(int16_t x, int16_t y, uint8_t width, uint8_t height, uint8_t value);
+void CLOCK_Draw(void);
 
 /* 自动息屏功能 */
 void MENU_UpdateActivity(void);
@@ -122,8 +132,10 @@ void MENU_SleepSetting(void);
 void MENU_TimerSetting(void);
 void MENU_SystemSetting(void);
 void MENU_AboutSetting(void);
+void MENU_WIFISetting(void);
 void MENU_RunTestLongMenu(void);
 void Update_FPS_Counter(void);
+InputEvent MENU_ReceiveInputEvent(void);
 uint32_t Get_Current_FPS(void);
 
 /* 游戏相关函数声明 */

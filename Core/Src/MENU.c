@@ -62,6 +62,7 @@ static uint32_t current_fps = 0;
 
 /* 外部队列句柄 - 用于接收输入事件 */
 extern osMessageQueueId_t InputEventQueueHandle;
+extern osMessageQueueId_t TimeQueueHandle;
 
 /* 函数前向声明 */
 InputEvent MENU_ReceiveInputEvent(void);
@@ -366,7 +367,7 @@ void MENU_RunMenu(MENU_HandleTypeDef *hMENU)
         }
     MENU_Event_and_Action(hMENU); // 检查事件及作相应操作
 
-    osDelay(3);  // 使用 osDelay 让出 CPU
+    osDelay(8);  // 使用 osDelay 让出 CPU
     }
 }
 
@@ -837,7 +838,8 @@ void MENU_RunSettingMenu(void)
                                                    {"Display", MENU_DisplaySetting},     // 显示设置
                                                    {"Sleep", MENU_SleepSetting},         // 睡眠设置
                                                    {"System", MENU_SystemSetting},       // 系统设置
-                                                   {"About", MENU_AboutSetting},         // 关于
+                                                   {"About",  MENU_AboutSetting},
+												   {"WIFI" ,  MENU_WIFISetting},          // 关于
                                                    {".."}};
 
     static MENU_HandleTypeDef MENU = {.OptionList = MENU_OptionList};
@@ -1048,6 +1050,29 @@ void MENU_AboutSetting(void)
     }
 }
 
+void MENU_WIFISetting(void)
+{
+    menu_command_callback(BUFFER_CLEAR);
+
+    menu_command_callback(SHOW_STRING, 20, 0, "WIFI Name", OLED_8X16);
+    menu_command_callback(SHOW_STRING, 5, 16, "Version: v2.0", OLED_8X16);
+    menu_command_callback(SHOW_STRING, 5, 32, "WIFI Status", OLED_8X16);
+    menu_command_callback(SHOW_STRING, 5, 48, "Press to return", OLED_8X16);
+
+    menu_command_callback(BUFFER_DISPLAY);
+
+    while (1)
+    {
+        InputEvent event = MENU_ReceiveInputEvent();
+        if (event.type == INPUT_ENTER || event.type == INPUT_BACK)
+        {
+            MENU_UpdateActivity(); // 更新活动时间
+            return;
+        }
+        osDelay(10);  // 使用 osDelay 让出 CPU
+    }
+}
+
 /* 滚动条平滑动画参数（使用菜单系统自带的动画机制） */
 static float scrollbar_current_height = 0.0f;      // 当前滚动条高度（平滑值）
 static float scrollbar_target_height = 0.0f;       // 目标滚动条高度
@@ -1144,3 +1169,53 @@ uint32_t Get_Current_FPS(void)
     return current_fps;
 }
 #endif /* SHOW_FPS */
+
+void CLOCK_Draw(void)
+{
+    /**
+     * 说明：
+     * - TimeTask 大约每 10s 往 TimeQueue 投递一次时间字符串；
+     * - 这里如果每 10ms 轮询一次队列，绝大多数时候队列都是“空”的；
+     * - “队列空”不是错误，不应覆盖显示为 Get Time Failed。
+     *
+     * 策略：读取到新时间就更新缓存；读取不到就继续显示上一次时间（首次则显示等待提示）。
+     */
+    static char last_time_str[32] = {0};
+    static uint8_t has_time = 0;
+    static char year_str[5] = {0};
+    static char month_str[3] = {0};
+    static char day_str[3] = {0};
+    static char hour_str[3] = {0};
+    static char minute_str[3] = {0};
+    static char second_str[3] = {0};
+
+    if (TimeQueueHandle != NULL) {
+        /* 把队列里可能堆积的多个时间全部取出，仅保留最新的一条 */
+        while (osMessageQueueGet(TimeQueueHandle, last_time_str, NULL, 0) == osOK) {
+            last_time_str[sizeof(last_time_str) - 1] = '\0'; // 确保以 '\0' 结尾
+            has_time = 1;
+        }
+    }
+
+    if(has_time) {
+    OLED_Clear();
+    OLED_ShowString(45, 0, "Clock", OLED_8X16);
+    strncpy(year_str, last_time_str, 4);
+    strncpy(month_str, last_time_str + 5, 2);
+    strncpy(day_str, last_time_str + 8, 2);
+    strncpy(hour_str, last_time_str + 11, 2);
+    strncpy(minute_str, last_time_str + 14, 2);
+    strncpy(second_str, last_time_str + 17, 2);
+    OLED_ShowString(0, 16, year_str, OLED_8X16); //4*8=32px
+    OLED_ShowString(32, 16, "/", OLED_8X16); //1*8=8px
+    OLED_ShowString(48, 16, month_str, OLED_8X16); //2*8=16px
+    OLED_ShowString(64, 16, "/", OLED_8X16); //1*8=8px
+    OLED_ShowString(80, 16, day_str, OLED_8X16); //2*8=16px
+    OLED_ShowString(0, 32, hour_str, OLED_8X16); //2*8=16px
+    OLED_ShowString(16, 32, ":", OLED_8X16); //1*8=8px
+    OLED_ShowString(24, 32, minute_str, OLED_8X16); //2*8=16px
+    OLED_ShowString(40, 32, ":", OLED_8X16); //1*8=8px
+    OLED_ShowString(48, 32, second_str, OLED_8X16); //2*8=16px
+    OLED_Update();
+    }
+}

@@ -7,6 +7,33 @@
 #include "input.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "cmsis_os.h"
+
+/* 输入事件队列：由 InputTask 生产（读硬件），各 UI/游戏从队列消费 */
+extern osMessageQueueId_t InputEventQueueHandle;
+
+static void Game_FlushInputEvents(void)
+{
+	if (!InputEventQueueHandle) return;
+	InputEvent evt;
+	while (osMessageQueueGet(InputEventQueueHandle, &evt, NULL, 0) == osOK) {
+		/* discard */
+	}
+}
+
+static InputEvent Game_ReceiveInputEvent(uint32_t timeout_ms)
+{
+	InputEvent evt;
+	evt.type = INPUT_NONE;
+	evt.value = 0;
+	if (!InputEventQueueHandle) return evt;
+	if (osMessageQueueGet(InputEventQueueHandle, &evt, NULL, timeout_ms) == osOK) {
+		return evt;
+	}
+	evt.type = INPUT_NONE;
+	evt.value = 0;
+	return evt;
+}
 
 extern uint8_t OLED_DisplayBuf[8][128];		//把OLED显存拿过来
 
@@ -131,7 +158,7 @@ void Game_Snake_Play(Game_Snake_Class* Snake)		//开始游戏
 		
 		Map_Update();
 		OLED_Update();
-		HAL_Delay(Game_Speed);
+		osDelay(Game_Speed);
 	}
 	WSAD Heading_Previous = Snake->Heading; 
 	int16_t temp = 0;
@@ -139,9 +166,11 @@ void Game_Snake_Play(Game_Snake_Class* Snake)		//开始游戏
 	
 	while(1)	//主循环
 	{		
-		// 输入统一从 Input_GetEvent 获取，避免与 Encoder_Roll()/KeyPress() 混用导致事件被消耗
-		InputEvent event = Input_GetEvent();
-		if(event.type == INPUT_BACK) {return;}	//退出游戏
+		InputEvent event = Game_ReceiveInputEvent(0);
+		if (event.type != INPUT_NONE) {
+			MENU_UpdateActivity();
+		}
+		if(event.type == INPUT_BACK || event.type == INPUT_ENTER) {return;}	//退出游戏
 
 		// 旋转编码器改变方向：顺时针(Down)右转，逆时针(Up)左转
 		if(event.type == INPUT_DOWN)
@@ -168,21 +197,24 @@ void Game_Snake_Play(Game_Snake_Class* Snake)		//开始游戏
 				OLED_Update();
 				
 				while(1){
-				InputEvent evt = Input_GetEvent();
+				InputEvent evt = Game_ReceiveInputEvent(50);
 				if(evt.type == INPUT_BACK || evt.type == INPUT_ENTER) {return;}	//退出游戏
-				HAL_Delay(50);
+				if (evt.type != INPUT_NONE) MENU_UpdateActivity();
 				}
 			}
 		}
 		
 		Map_Update();
 		OLED_Update();
-		HAL_Delay(Game_Speed);
+		osDelay(Game_Speed);
 	}
 }
 
 void Game_Snake_Init(void)
 {
+	/* 进入游戏前先清空积压输入，避免误触发 */
+	Game_FlushInputEvents();
+
 	Game_Credits = 0;
 	Game_Speed = 200;	
 	Map_Clear();		//清除蛇尸
@@ -207,10 +239,6 @@ void Game_Snake_Init(void)
 	Game_Snake_Play(&Snake_1);
 	
 	// 清理按键状态，避免退出后误触发
-	while(1) {
-		InputEvent evt = Input_GetEvent();
-		if(evt.type == INPUT_NONE) break;
-		HAL_Delay(10);
-	}
+	Game_FlushInputEvents();
 	return;
 }

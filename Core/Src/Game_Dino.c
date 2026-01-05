@@ -7,6 +7,34 @@
 #include <math.h>
 #include "MENU.h"
 #include "input.h"
+#include "cmsis_os.h"
+
+/* 输入事件队列：由 InputTask 生产（读硬件），各 UI/游戏从队列消费 */
+extern osMessageQueueId_t InputEventQueueHandle;
+
+static void Game_FlushInputEvents(void)
+{
+    if (!InputEventQueueHandle) return;
+    InputEvent evt;
+    while (osMessageQueueGet(InputEventQueueHandle, &evt, NULL, 0) == osOK) {
+        /* discard */
+    }
+}
+
+static InputEvent Game_ReceiveInputEvent(uint32_t timeout_ms)
+{
+    InputEvent evt;
+    evt.type = INPUT_NONE;
+    evt.value = 0;
+
+    if (!InputEventQueueHandle) return evt;
+    if (osMessageQueueGet(InputEventQueueHandle, &evt, NULL, timeout_ms) == osOK) {
+        return evt;
+    }
+    evt.type = INPUT_NONE;
+    evt.value = 0;
+    return evt;
+}
 
 // 游戏对象位置结构体
 struct Object_Position{
@@ -119,12 +147,12 @@ int isColliding(struct Object_Position *a,struct Object_Position *b)
         // 等待按键退出
         while(1)
         {
-            InputEvent event = Input_GetEvent();
+            InputEvent event = Game_ReceiveInputEvent(50);
             if(event.type == INPUT_ENTER)
             {
+                MENU_UpdateActivity();
                 break;
             }
-            HAL_Delay(50);
         }
         return 1;
     }
@@ -138,11 +166,14 @@ int DinoGame_Animation(void)
     {
         int return_flag;
 
-        // 输入统一从 Input_GetEvent 获取
-        InputEvent event = Input_GetEvent();
+        /* 输入从队列获取（避免与 InputTask 抢 Input_GetEvent） */
+        InputEvent event = Game_ReceiveInputEvent(0);
+        if (event.type != INPUT_NONE) {
+            MENU_UpdateActivity();
+        }
 
         // 检查是否按了返回键退出游戏
-        if(event.type == INPUT_BACK)
+        if(event.type == INPUT_BACK || event.type == INPUT_ENTER)
         {
             return 0;
         }
@@ -170,7 +201,7 @@ int DinoGame_Animation(void)
             return 0;
         }
         
-        HAL_Delay(30); // 控制游戏速度
+        osDelay(50); // 控制游戏速度
     }
 }
 
@@ -224,6 +255,9 @@ void DinoGame_Pos_Init(void)
 // 游戏初始化和启动
 void Game_Dino_Init(void)
 {
+    /* 进入游戏前先清空积压输入，避免误触发 */
+    Game_FlushInputEvents();
+
     // 初始化游戏状态
     DinoGame_Pos_Init();
     
@@ -237,12 +271,12 @@ void Game_Dino_Init(void)
     // 等待按键开始游戏
     while(1)
     {
-        InputEvent event = Input_GetEvent();
+        InputEvent event = Game_ReceiveInputEvent(50);
         if(event.type == INPUT_ENTER)
         {
+            MENU_UpdateActivity();
             break;
         }
-        HAL_Delay(50);
     }
     
     // 开始游戏

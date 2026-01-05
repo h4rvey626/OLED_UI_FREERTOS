@@ -1,0 +1,4 @@
+../Core/Src/time_task.c:16:16:parse_month	24	static
+../Core/Src/time_task.c:33:6:SNTP_Config	80	static
+../Core/Src/time_task.c:53:6:SNTP_GetTime	80	static
+../Core/Src/time_task.c:105:6:SNTP_GetTimeString	64	static

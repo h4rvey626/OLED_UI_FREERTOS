@@ -1,0 +1,6 @@
+../Core/Src/esp_driver.c:23:6:ESP_Driver_Init	8	static
+../Core/Src/esp_driver.c:37:6:ESP_Driver_ISR	16	static
+../Core/Src/esp_driver.c:46:6:ESP_Driver_FlushBuffer	8	static
+../Core/Src/esp_driver.c:55:6:uart_read_byte	16	static
+../Core/Src/esp_driver.c:65:8:uart_read	24	static
+../Core/Src/esp_driver.c:81:6:uart_send	16	static

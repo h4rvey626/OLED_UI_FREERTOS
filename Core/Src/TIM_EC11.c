@@ -31,7 +31,7 @@ void TIM_EC11_Init(void)
 KeyPressState KeyPress(void)
 {
     // 约定：GPIO 低电平=按下（上拉输入）
-    const uint8_t raw_level = (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == GPIO_PIN_RESET) ? 0 : 1;
+    const uint8_t raw_level = (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == GPIO_PIN_SET) ? 0 : 1;
     const uint32_t now = HAL_GetTick();
 
     // 去抖：检测输入稳定 KEY_DEBOUNCE_MS 之后才算有效变化
@@ -248,6 +248,4 @@ int16_t Encoder_Roll(void)
     return output;
 } 
 
-// 注意: Encoder_Direction() 已移除
-// 请使用 input.h 的 Input_GetEvent() 获取编码器事件
-// 直接调用 Encoder_Roll() 会与 Input_GetEvent() 冲突（消费同一增量）
+
