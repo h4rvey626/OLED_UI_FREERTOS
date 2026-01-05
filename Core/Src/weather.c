@@ -13,6 +13,8 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 /* 可支持的最大城市数（后续从 API 加城市也方便） */
 #define WEATHER_MAX_CITIES 10
@@ -22,6 +24,153 @@
 
 static WeatherData_t s_weather_list[WEATHER_MAX_CITIES];
 static uint8_t s_weather_count = 0;
+
+/* --------------------------- QWeather JSON 解析（轻量） --------------------------- */
+
+/* 在 [begin, end) 区间内查找 needle，返回首次命中位置或 NULL */
+static const char* bounded_strstr(const char* begin, const char* end, const char* needle)
+{
+    if (!begin || !end || !needle) return NULL;
+    size_t nlen = strlen(needle);
+    if (nlen == 0) return begin;
+    if ((size_t)(end - begin) < nlen) return NULL;
+
+    const char* p = begin;
+    const char* last = end - nlen;
+    for (; p <= last; p++) {
+        if (*p == *needle && memcmp(p, needle, nlen) == 0) {
+            return p;
+        }
+    }
+    return NULL;
+}
+
+/* 从一个 JSON 对象片段中取字符串字段："key":"value"（value 不含转义处理，适用于和风返回） */
+static bool json_obj_get_string(const char* obj, size_t obj_len, const char* key, char* out, size_t out_sz)
+{
+    if (!obj || obj_len == 0 || !key || !out || out_sz == 0) return false;
+    const char* begin = obj;
+    const char* end = obj + obj_len;
+
+    char pattern[64];
+    int n = snprintf(pattern, sizeof(pattern), "\"%s\":\"", key);
+    if (n <= 0 || (size_t)n >= sizeof(pattern)) return false;
+
+    const char* p = bounded_strstr(begin, end, pattern);
+    if (!p) return false;
+    p += strlen(pattern);
+
+    const char* q = p;
+    while (q < end && *q != '\"') q++;
+    if (q >= end) return false;
+
+    size_t len = (size_t)(q - p);
+    if (len >= out_sz) len = out_sz - 1;
+    memcpy(out, p, len);
+    out[len] = '\0';
+    return true;
+}
+
+/* "1-3" -> 3, "3"->3；解析失败返回 0 */
+static uint8_t parse_wind_scale_upper(const char* s)
+{
+    if (!s || !*s) return 0;
+
+    // 读第一个数字
+    while (*s && !isdigit((unsigned char)*s)) s++;
+    if (!*s) return 0;
+    int a = (int)strtol(s, (char**)&s, 10);
+
+    // 跳到分隔符后的数字（- 或 ~）
+    while (*s && *s != '-' && *s != '~') s++;
+    if (*s == '-' || *s == '~') {
+        s++;
+        while (*s && !isdigit((unsigned char)*s)) s++;
+        if (*s) {
+            int b = (int)strtol(s, NULL, 10);
+            if (b > a) a = b;
+        }
+    }
+
+    if (a < 0) a = 0;
+    if (a > 12) a = 12;
+    return (uint8_t)a;
+}
+
+/* 找到 daily 数组第一个对象 { ... }，返回对象起始指针并输出长度 */
+static const char* find_daily0_object(const char* json, size_t* out_obj_len)
+{
+    if (out_obj_len) *out_obj_len = 0;
+    if (!json) return NULL;
+
+    const char* daily = strstr(json, "\"daily\"");
+    if (!daily) return NULL;
+
+    const char* arr = strchr(daily, '[');
+    if (!arr) return NULL;
+
+    const char* p = strchr(arr, '{');
+    if (!p) return NULL;
+
+    // 计数匹配大括号，定位对象结束
+    int depth = 0;
+    const char* q = p;
+    for (; *q; q++) {
+        if (*q == '{') depth++;
+        else if (*q == '}') {
+            depth--;
+            if (depth == 0) {
+                if (out_obj_len) *out_obj_len = (size_t)(q - p + 1);
+                return p;
+            }
+        }
+    }
+    return NULL;
+}
+
+bool Weather_ParseQWeather3dToday(const char* json, QWeatherDaily_t* out)
+{
+    if (!json || !out) return false;
+    memset(out, 0, sizeof(*out));
+
+    // 可选：快速检查 code==200
+    if (!strstr(json, "\"code\":\"200\"")) {
+        return false;
+    }
+
+    size_t obj_len = 0;
+    const char* obj = find_daily0_object(json, &obj_len);
+    if (!obj || obj_len == 0) return false;
+
+    char tmp[32];
+
+    if (json_obj_get_string(obj, obj_len, "fxDate", out->fxDate, sizeof(out->fxDate)) == false) {
+        // fxDate 非关键字段，允许缺失
+        out->fxDate[0] = '\0';
+    }
+
+    if (json_obj_get_string(obj, obj_len, "textDay", out->textDay, sizeof(out->textDay)) == false) {
+        out->textDay[0] = '\0';
+    }
+
+    if (json_obj_get_string(obj, obj_len, "tempMax", tmp, sizeof(tmp))) {
+        out->tempMax = (int8_t)atoi(tmp);
+    }
+    if (json_obj_get_string(obj, obj_len, "tempMin", tmp, sizeof(tmp))) {
+        out->tempMin = (int8_t)atoi(tmp);
+    }
+    if (json_obj_get_string(obj, obj_len, "humidity", tmp, sizeof(tmp))) {
+        int h = atoi(tmp);
+        if (h < 0) h = 0;
+        if (h > 100) h = 100;
+        out->humidity = (uint8_t)h;
+    }
+    if (json_obj_get_string(obj, obj_len, "windScaleDay", tmp, sizeof(tmp))) {
+        out->windLevel = parse_wind_scale_upper(tmp);
+    }
+
+    return true;
+}
 
 void Weather_InitDefault(void)
 {
