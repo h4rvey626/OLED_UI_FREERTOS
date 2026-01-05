@@ -35,17 +35,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_rnglists 00001589  00000000  00000000  0003a160  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001ce18  00000000  00000000  0003b6e9  2**0
+ 16 .debug_macro  0001cf74  00000000  00000000  0003b6e9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00026c10  00000000  00000000  00058501  2**0
+ 17 .debug_line   00026c40  00000000  00000000  0005865d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0009d6ee  00000000  00000000  0007f111  2**0
+ 18 .debug_str    0009df15  00000000  00000000  0007f29d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  0011c7ff  2**0
+ 19 .comment      00000043  00000000  00000000  0011d1b2  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00008308  00000000  00000000  0011c844  2**2
+ 20 .debug_frame  00008308  00000000  00000000  0011d1f8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000061  00000000  00000000  00124b4c  2**0
+ 21 .debug_line_str 00000061  00000000  00000000  00125500  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -12997,9 +12997,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
  8005d6c:	20000d3c 	.word	0x20000d3c
 
 08005d70 <Weather_InitDefault>:
-
-static WeatherData_t s_weather_list[WEATHER_MAX_CITIES];
 static uint8_t s_weather_count = 0;
+
+
 
 void Weather_InitDefault(void)
 {
@@ -13272,11 +13272,11 @@ static void Weather_DrawCard(const WeatherData_t *w, int16_t offset_x)
  8005fa2:	4413      	add	r3, r2
  8005fa4:	b29b      	uxth	r3, r3
  8005fa6:	85fb      	strh	r3, [r7, #46]	@ 0x2e
-    OLED_ShowString(temp_x, 30, buf, OLED_8X16);
+    OLED_ShowString(temp_x, 28, buf, OLED_8X16);
  8005fa8:	f107 020c 	add.w	r2, r7, #12
  8005fac:	f9b7 002e 	ldrsh.w	r0, [r7, #46]	@ 0x2e
  8005fb0:	2308      	movs	r3, #8
- 8005fb2:	211e      	movs	r1, #30
+ 8005fb2:	211c      	movs	r1, #28
  8005fb4:	f7fe f8ec 	bl	8004190 <OLED_ShowString>
 
     /* 湿度和风力 */
@@ -13292,14 +13292,14 @@ static void Weather_DrawCard(const WeatherData_t *w, int16_t offset_x)
  8005fce:	4a0b      	ldr	r2, [pc, #44]	@ (8005ffc <Weather_DrawCard+0x11c>)
  8005fd0:	2120      	movs	r1, #32
  8005fd2:	f006 fe41 	bl	800cc58 <sniprintf>
-    OLED_ShowString(x + 10, 50, buf, OLED_6X8);
+    OLED_ShowString(x + 10, 46, buf, OLED_6X8);
  8005fd6:	f8b7 3046 	ldrh.w	r3, [r7, #70]	@ 0x46
  8005fda:	330a      	adds	r3, #10
  8005fdc:	b29b      	uxth	r3, r3
  8005fde:	b218      	sxth	r0, r3
  8005fe0:	f107 020c 	add.w	r2, r7, #12
  8005fe4:	2306      	movs	r3, #6
- 8005fe6:	2132      	movs	r1, #50	@ 0x32
+ 8005fe6:	212e      	movs	r1, #46	@ 0x2e
  8005fe8:	f7fe f8d2 	bl	8004190 <OLED_ShowString>
  8005fec:	e000      	b.n	8005ff0 <Weather_DrawCard+0x110>
     if (!w) return;
@@ -13356,23 +13356,23 @@ static void Weather_DrawIndicator(uint8_t current, uint8_t total)
  8006040:	79fb      	ldrb	r3, [r7, #7]
  8006042:	429a      	cmp	r2, r3
  8006044:	d109      	bne.n	800605a <Weather_DrawIndicator+0x5a>
-            OLED_DrawRectangle(cx, 60, 4, 3, OLED_FILLED);
+            OLED_DrawRectangle(cx, 56, 4, 4, OLED_FILLED);
  8006046:	f9b7 000a 	ldrsh.w	r0, [r7, #10]
  800604a:	2301      	movs	r3, #1
  800604c:	9300      	str	r3, [sp, #0]
- 800604e:	2303      	movs	r3, #3
+ 800604e:	2304      	movs	r3, #4
  8006050:	2204      	movs	r2, #4
- 8006052:	213c      	movs	r1, #60	@ 0x3c
+ 8006052:	2138      	movs	r1, #56	@ 0x38
  8006054:	f7fe fb9b 	bl	800478e <OLED_DrawRectangle>
  8006058:	e008      	b.n	800606c <Weather_DrawIndicator+0x6c>
         } else {
-            OLED_DrawRectangle(cx, 60, 4, 3, OLED_UNFILLED);
+            OLED_DrawRectangle(cx, 56, 4, 4, OLED_UNFILLED);
  800605a:	f9b7 000a 	ldrsh.w	r0, [r7, #10]
  800605e:	2300      	movs	r3, #0
  8006060:	9300      	str	r3, [sp, #0]
- 8006062:	2303      	movs	r3, #3
+ 8006062:	2304      	movs	r3, #4
  8006064:	2204      	movs	r2, #4
- 8006066:	213c      	movs	r1, #60	@ 0x3c
+ 8006066:	2138      	movs	r1, #56	@ 0x38
  8006068:	f7fe fb91 	bl	800478e <OLED_DrawRectangle>
     for (uint8_t i = 0; i < total; i++) {
  800606c:	7bfb      	ldrb	r3, [r7, #15]
@@ -13710,8 +13710,8 @@ void Weather_Run(void)
  8006284:	f7ff febc 	bl	8006000 <Weather_DrawIndicator>
         OLED_Update();
  8006288:	f7fd fdea 	bl	8003e60 <OLED_Update>
-        osDelay(16); // ~60fps
- 800628c:	2010      	movs	r0, #16
+        osDelay(10); //
+ 800628c:	200a      	movs	r0, #10
  800628e:	f003 f844 	bl	800931a <osDelay>
     {
  8006292:	e70e      	b.n	80060b2 <Weather_Run+0x2e>

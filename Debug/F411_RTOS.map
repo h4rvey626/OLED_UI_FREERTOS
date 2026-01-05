@@ -2446,6 +2446,10 @@ Discarded input sections
  .group         0x00000000        0xc ./Core/Src/weather.o
  .group         0x00000000        0xc ./Core/Src/weather.o
  .group         0x00000000        0xc ./Core/Src/weather.o
+ .group         0x00000000        0xc ./Core/Src/weather.o
+ .group         0x00000000        0xc ./Core/Src/weather.o
+ .group         0x00000000        0xc ./Core/Src/weather.o
+ .group         0x00000000        0xc ./Core/Src/weather.o
  .text          0x00000000        0x0 ./Core/Src/weather.o
  .data          0x00000000        0x0 ./Core/Src/weather.o
  .bss           0x00000000        0x0 ./Core/Src/weather.o
@@ -2533,6 +2537,9 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c ./Core/Src/weather.o
  .debug_macro   0x00000000       0x16 ./Core/Src/weather.o
  .debug_macro   0x00000000      0x146 ./Core/Src/weather.o
+ .debug_macro   0x00000000       0x16 ./Core/Src/weather.o
+ .debug_macro   0x00000000       0x16 ./Core/Src/weather.o
+ .debug_macro   0x00000000       0x29 ./Core/Src/weather.o
  .group         0x00000000        0xc ./Core/Src/wifi_task.o
  .group         0x00000000        0xc ./Core/Src/wifi_task.o
  .group         0x00000000        0xc ./Core/Src/wifi_task.o
@@ -8696,7 +8703,7 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_rnglists
                 0x000014d1       0xb8 ./Middlewares/FreeRTOS/timers.o
 
-.debug_macro    0x00000000    0x1ce18
+.debug_macro    0x00000000    0x1cf74
  .debug_macro   0x00000000      0x3be ./Core/Src/Game_Dino.o
  .debug_macro   0x000003be      0xad8 ./Core/Src/Game_Dino.o
  .debug_macro   0x00000e96       0x22 ./Core/Src/Game_Dino.o
@@ -8836,37 +8843,38 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x0001976a      0x1e2 ./Core/Src/tim.o
  .debug_macro   0x0001994c      0x3f9 ./Core/Src/time_task.o
  .debug_macro   0x00019d45      0x209 ./Core/Src/usart.o
- .debug_macro   0x00019f4e      0x3e4 ./Core/Src/weather.o
- .debug_macro   0x0001a332      0x40f ./Core/Src/wifi_task.o
- .debug_macro   0x0001a741      0x22e ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o
- .debug_macro   0x0001a96f      0x1ce ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cortex.o
- .debug_macro   0x0001ab3d      0x1d4 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma.o
- .debug_macro   0x0001ad11      0x1d4 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_gpio.o
- .debug_macro   0x0001aee5      0x1f2 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.o
- .debug_macro   0x0001b0d7      0x1cf ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim.o
- .debug_macro   0x0001b2a6      0x1ce ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.o
- .debug_macro   0x0001b474      0x1cf ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_uart.o
- .debug_macro   0x0001b643      0x3d7 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001ba1a       0x10 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001ba2a       0xf5 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001bb1f       0x91 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001bbb0       0x8d ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001bc3d       0x9a ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001bcd7       0x22 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_macro   0x0001bcf9      0x1f4 ./Middlewares/FreeRTOS/event_groups.o
- .debug_macro   0x0001beed      0x11c ./Middlewares/FreeRTOS/event_groups.o
- .debug_macro   0x0001c009       0x9b ./Middlewares/FreeRTOS/event_groups.o
- .debug_macro   0x0001c0a4      0x1c0 ./Middlewares/FreeRTOS/heap_4.o
- .debug_macro   0x0001c264      0x199 ./Middlewares/FreeRTOS/list.o
- .debug_macro   0x0001c3fd      0x246 ./Middlewares/FreeRTOS/port.o
- .debug_macro   0x0001c643      0x228 ./Middlewares/FreeRTOS/queue.o
- .debug_macro   0x0001c86b       0x87 ./Middlewares/FreeRTOS/queue.o
- .debug_macro   0x0001c8f2      0x291 ./Middlewares/FreeRTOS/tasks.o
- .debug_macro   0x0001cb83       0x10 ./Middlewares/FreeRTOS/tasks.o
- .debug_macro   0x0001cb93      0x1ee ./Middlewares/FreeRTOS/timers.o
- .debug_macro   0x0001cd81       0x97 ./Middlewares/FreeRTOS/timers.o
+ .debug_macro   0x00019f4e      0x421 ./Core/Src/weather.o
+ .debug_macro   0x0001a36f      0x11f ./Core/Src/weather.o
+ .debug_macro   0x0001a48e      0x40f ./Core/Src/wifi_task.o
+ .debug_macro   0x0001a89d      0x22e ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o
+ .debug_macro   0x0001aacb      0x1ce ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cortex.o
+ .debug_macro   0x0001ac99      0x1d4 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma.o
+ .debug_macro   0x0001ae6d      0x1d4 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_gpio.o
+ .debug_macro   0x0001b041      0x1f2 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.o
+ .debug_macro   0x0001b233      0x1cf ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim.o
+ .debug_macro   0x0001b402      0x1ce ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.o
+ .debug_macro   0x0001b5d0      0x1cf ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_uart.o
+ .debug_macro   0x0001b79f      0x3d7 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001bb76       0x10 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001bb86       0xf5 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001bc7b       0x91 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001bd0c       0x8d ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001bd99       0x9a ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001be33       0x22 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_macro   0x0001be55      0x1f4 ./Middlewares/FreeRTOS/event_groups.o
+ .debug_macro   0x0001c049      0x11c ./Middlewares/FreeRTOS/event_groups.o
+ .debug_macro   0x0001c165       0x9b ./Middlewares/FreeRTOS/event_groups.o
+ .debug_macro   0x0001c200      0x1c0 ./Middlewares/FreeRTOS/heap_4.o
+ .debug_macro   0x0001c3c0      0x199 ./Middlewares/FreeRTOS/list.o
+ .debug_macro   0x0001c559      0x246 ./Middlewares/FreeRTOS/port.o
+ .debug_macro   0x0001c79f      0x228 ./Middlewares/FreeRTOS/queue.o
+ .debug_macro   0x0001c9c7       0x87 ./Middlewares/FreeRTOS/queue.o
+ .debug_macro   0x0001ca4e      0x291 ./Middlewares/FreeRTOS/tasks.o
+ .debug_macro   0x0001ccdf       0x10 ./Middlewares/FreeRTOS/tasks.o
+ .debug_macro   0x0001ccef      0x1ee ./Middlewares/FreeRTOS/timers.o
+ .debug_macro   0x0001cedd       0x97 ./Middlewares/FreeRTOS/timers.o
 
-.debug_line     0x00000000    0x26c10
+.debug_line     0x00000000    0x26c40
  .debug_line    0x00000000      0xf72 ./Core/Src/Game_Dino.o
  .debug_line    0x00000f72      0x41c ./Core/Src/Game_Dino_Data.o
  .debug_line    0x0000138e     0x1066 ./Core/Src/Game_Snake.o
@@ -8890,70 +8898,70 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x0000de5a      0x8ba ./Core/Src/tim.o
  .debug_line    0x0000e714      0xd7a ./Core/Src/time_task.o
  .debug_line    0x0000f48e      0x8fc ./Core/Src/usart.o
- .debug_line    0x0000fd8a      0xf3b ./Core/Src/weather.o
- .debug_line    0x00010cc5      0xe95 ./Core/Src/wifi_task.o
- .debug_line    0x00011b5a       0x7a ./Core/Startup/startup_stm32f411ceux.o
- .debug_line    0x00011bd4      0xb55 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o
- .debug_line    0x00012729      0xe25 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cortex.o
- .debug_line    0x0001354e     0x10c1 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma.o
- .debug_line    0x0001460f      0xc71 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_gpio.o
- .debug_line    0x00015280      0xf62 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.o
- .debug_line    0x000161e2     0x3694 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim.o
- .debug_line    0x00019876     0x1a50 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.o
- .debug_line    0x0001b2c6     0x269d ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_uart.o
- .debug_line    0x0001d963     0x26b1 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_line    0x00020014      0xc15 ./Middlewares/FreeRTOS/event_groups.o
- .debug_line    0x00020c29      0xa59 ./Middlewares/FreeRTOS/heap_4.o
- .debug_line    0x00021682      0x842 ./Middlewares/FreeRTOS/list.o
- .debug_line    0x00021ec4      0x9bd ./Middlewares/FreeRTOS/port.o
- .debug_line    0x00022881     0x17b3 ./Middlewares/FreeRTOS/queue.o
- .debug_line    0x00024034     0x1d5a ./Middlewares/FreeRTOS/tasks.o
- .debug_line    0x00025d8e      0xe82 ./Middlewares/FreeRTOS/timers.o
+ .debug_line    0x0000fd8a      0xf6b ./Core/Src/weather.o
+ .debug_line    0x00010cf5      0xe95 ./Core/Src/wifi_task.o
+ .debug_line    0x00011b8a       0x7a ./Core/Startup/startup_stm32f411ceux.o
+ .debug_line    0x00011c04      0xb55 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o
+ .debug_line    0x00012759      0xe25 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cortex.o
+ .debug_line    0x0001357e     0x10c1 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma.o
+ .debug_line    0x0001463f      0xc71 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_gpio.o
+ .debug_line    0x000152b0      0xf62 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.o
+ .debug_line    0x00016212     0x3694 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim.o
+ .debug_line    0x000198a6     0x1a50 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.o
+ .debug_line    0x0001b2f6     0x269d ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_uart.o
+ .debug_line    0x0001d993     0x26b1 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_line    0x00020044      0xc15 ./Middlewares/FreeRTOS/event_groups.o
+ .debug_line    0x00020c59      0xa59 ./Middlewares/FreeRTOS/heap_4.o
+ .debug_line    0x000216b2      0x842 ./Middlewares/FreeRTOS/list.o
+ .debug_line    0x00021ef4      0x9bd ./Middlewares/FreeRTOS/port.o
+ .debug_line    0x000228b1     0x17b3 ./Middlewares/FreeRTOS/queue.o
+ .debug_line    0x00024064     0x1d5a ./Middlewares/FreeRTOS/tasks.o
+ .debug_line    0x00025dbe      0xe82 ./Middlewares/FreeRTOS/timers.o
 
-.debug_str      0x00000000    0x9d6ee
- .debug_str     0x00000000    0x9d6ee ./Core/Src/Game_Dino.o
+.debug_str      0x00000000    0x9df15
+ .debug_str     0x00000000    0x9df15 ./Core/Src/Game_Dino.o
                               0x8f95a (size before relaxing)
- .debug_str     0x0009d6ee     0x3ddb ./Core/Src/Game_Dino_Data.o
- .debug_str     0x0009d6ee    0x8f778 ./Core/Src/Game_Snake.o
- .debug_str     0x0009d6ee    0x900e1 ./Core/Src/MENU.o
- .debug_str     0x0009d6ee    0x8b65b ./Core/Src/OLED.o
- .debug_str     0x0009d6ee     0x3e07 ./Core/Src/OLED_Data.o
- .debug_str     0x0009d6ee    0x87839 ./Core/Src/TIM_EC11.o
- .debug_str     0x0009d6ee    0x8f3e2 ./Core/Src/esp_at.o
- .debug_str     0x0009d6ee    0x8a84e ./Core/Src/esp_driver.o
- .debug_str     0x0009d6ee    0x8f729 ./Core/Src/freertos.o
- .debug_str     0x0009d6ee    0x871f8 ./Core/Src/gpio.o
- .debug_str     0x0009d6ee    0x870f4 ./Core/Src/input.o
- .debug_str     0x0009d6ee    0x8f644 ./Core/Src/main.o
- .debug_str     0x0009d6ee     0x422a ./Core/Src/ringbuffer.o
- .debug_str     0x0009d6ee    0x874e2 ./Core/Src/stm32f4xx_hal_msp.o
- .debug_str     0x0009d6ee    0x87b7c ./Core/Src/stm32f4xx_hal_timebase_tim.o
- .debug_str     0x0009d6ee    0x87818 ./Core/Src/stm32f4xx_it.o
- .debug_str     0x0009d6ee     0x99dd ./Core/Src/syscalls.o
- .debug_str     0x0009d6ee     0x777b ./Core/Src/sysmem.o
- .debug_str     0x0009d6ee    0x871dd ./Core/Src/system_stm32f4xx.o
- .debug_str     0x0009d6ee    0x87899 ./Core/Src/tim.o
- .debug_str     0x0009d6ee    0x8f4eb ./Core/Src/time_task.o
- .debug_str     0x0009d6ee    0x87b60 ./Core/Src/usart.o
- .debug_str     0x0009d6ee    0x8f755 ./Core/Src/weather.o
- .debug_str     0x0009d6ee    0x8f630 ./Core/Src/wifi_task.o
- .debug_str     0x0009d6ee       0x7d ./Core/Startup/startup_stm32f411ceux.o
- .debug_str     0x0009d6ee    0x87c42 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o
- .debug_str     0x0009d6ee    0x879ac ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cortex.o
- .debug_str     0x0009d6ee    0x8761e ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma.o
- .debug_str     0x0009d6ee    0x87391 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_gpio.o
- .debug_str     0x0009d6ee    0x8764a ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.o
- .debug_str     0x0009d6ee    0x8858e ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim.o
- .debug_str     0x0009d6ee    0x87d9a ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.o
- .debug_str     0x0009d6ee    0x87c19 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_uart.o
- .debug_str     0x0009d6ee    0x920a7 ./Middlewares/FreeRTOS/cmsis_os2.o
- .debug_str     0x0009d6ee     0xc0fe ./Middlewares/FreeRTOS/event_groups.o
- .debug_str     0x0009d6ee     0xb5a7 ./Middlewares/FreeRTOS/heap_4.o
- .debug_str     0x0009d6ee     0xac65 ./Middlewares/FreeRTOS/list.o
- .debug_str     0x0009d6ee     0xb9a3 ./Middlewares/FreeRTOS/port.o
- .debug_str     0x0009d6ee     0xc7a5 ./Middlewares/FreeRTOS/queue.o
- .debug_str     0x0009d6ee     0xd5aa ./Middlewares/FreeRTOS/tasks.o
- .debug_str     0x0009d6ee     0xcff6 ./Middlewares/FreeRTOS/timers.o
+ .debug_str     0x0009df15     0x3ddb ./Core/Src/Game_Dino_Data.o
+ .debug_str     0x0009df15    0x8f778 ./Core/Src/Game_Snake.o
+ .debug_str     0x0009df15    0x900e1 ./Core/Src/MENU.o
+ .debug_str     0x0009df15    0x8b65b ./Core/Src/OLED.o
+ .debug_str     0x0009df15     0x3e07 ./Core/Src/OLED_Data.o
+ .debug_str     0x0009df15    0x87839 ./Core/Src/TIM_EC11.o
+ .debug_str     0x0009df15    0x8f3e2 ./Core/Src/esp_at.o
+ .debug_str     0x0009df15    0x8a84e ./Core/Src/esp_driver.o
+ .debug_str     0x0009df15    0x8f729 ./Core/Src/freertos.o
+ .debug_str     0x0009df15    0x871f8 ./Core/Src/gpio.o
+ .debug_str     0x0009df15    0x870f4 ./Core/Src/input.o
+ .debug_str     0x0009df15    0x8f644 ./Core/Src/main.o
+ .debug_str     0x0009df15     0x422a ./Core/Src/ringbuffer.o
+ .debug_str     0x0009df15    0x874e2 ./Core/Src/stm32f4xx_hal_msp.o
+ .debug_str     0x0009df15    0x87b7c ./Core/Src/stm32f4xx_hal_timebase_tim.o
+ .debug_str     0x0009df15    0x87818 ./Core/Src/stm32f4xx_it.o
+ .debug_str     0x0009df15     0x99dd ./Core/Src/syscalls.o
+ .debug_str     0x0009df15     0x777b ./Core/Src/sysmem.o
+ .debug_str     0x0009df15    0x871dd ./Core/Src/system_stm32f4xx.o
+ .debug_str     0x0009df15    0x87899 ./Core/Src/tim.o
+ .debug_str     0x0009df15    0x8f4eb ./Core/Src/time_task.o
+ .debug_str     0x0009df15    0x87b60 ./Core/Src/usart.o
+ .debug_str     0x0009df15    0x9005e ./Core/Src/weather.o
+ .debug_str     0x0009df15    0x8f630 ./Core/Src/wifi_task.o
+ .debug_str     0x0009df15       0x7d ./Core/Startup/startup_stm32f411ceux.o
+ .debug_str     0x0009df15    0x87c42 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o
+ .debug_str     0x0009df15    0x879ac ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cortex.o
+ .debug_str     0x0009df15    0x8761e ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma.o
+ .debug_str     0x0009df15    0x87391 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_gpio.o
+ .debug_str     0x0009df15    0x8764a ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rcc.o
+ .debug_str     0x0009df15    0x8858e ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim.o
+ .debug_str     0x0009df15    0x87d9a ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_tim_ex.o
+ .debug_str     0x0009df15    0x87c19 ./Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_uart.o
+ .debug_str     0x0009df15    0x920a7 ./Middlewares/FreeRTOS/cmsis_os2.o
+ .debug_str     0x0009df15     0xc0fe ./Middlewares/FreeRTOS/event_groups.o
+ .debug_str     0x0009df15     0xb5a7 ./Middlewares/FreeRTOS/heap_4.o
+ .debug_str     0x0009df15     0xac65 ./Middlewares/FreeRTOS/list.o
+ .debug_str     0x0009df15     0xb9a3 ./Middlewares/FreeRTOS/port.o
+ .debug_str     0x0009df15     0xc7a5 ./Middlewares/FreeRTOS/queue.o
+ .debug_str     0x0009df15     0xd5aa ./Middlewares/FreeRTOS/tasks.o
+ .debug_str     0x0009df15     0xcff6 ./Middlewares/FreeRTOS/timers.o
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Core/Src/Game_Dino.o

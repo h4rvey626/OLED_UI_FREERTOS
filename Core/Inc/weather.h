@@ -15,15 +15,6 @@ typedef struct {
     uint8_t wind_level;     // 风力等级 (0-12)
 } WeatherData_t;
 
-/* 和风天气 3 天预报 daily 单天数据（仅保留常用字段） */
-typedef struct {
-    char fxDate[11];        // "YYYY-MM-DD"
-    char textDay[16];       // 白天天气文字（如：晴）
-    int8_t tempMax;         // 最高温（摄氏）
-    int8_t tempMin;         // 最低温（摄氏）
-    uint8_t humidity;       // 湿度 (0-100)
-    uint8_t windLevel;      // 风力等级（从 windScaleDay 解析，取上限）
-} QWeatherDaily_t;
 
 /* 初始化默认数据（可选：Weather_Run 内部也会懒初始化） */
 void Weather_InitDefault(void);
@@ -37,8 +28,6 @@ const WeatherData_t* Weather_GetCity(size_t idx);
 bool Weather_SetCity(size_t idx, const WeatherData_t* w);
 bool Weather_AddCity(const WeatherData_t* w);
 
-/* 解析和风天气 3 天预报 JSON，提取 daily[0]（当天） */
-bool Weather_ParseQWeather3dToday(const char* json, QWeatherDaily_t* out);
 
 #endif /* INC_WEATHER_H_ */
 
