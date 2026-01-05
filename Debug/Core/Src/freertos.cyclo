@@ -2,4 +2,4 @@
 ../Core/Src/freertos.c:175:6:StartInputTask	2
 ../Core/Src/freertos.c:199:6:StartMenuTask	9
 ../Core/Src/freertos.c:251:6:StartWIFITask	1
-../Core/Src/freertos.c:265:6:StartTimeTask	8
+../Core/Src/freertos.c:265:6:StartTimeTask	9

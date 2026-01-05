@@ -58,21 +58,21 @@ bool WIFI_App_Init(void) {
     
     // 初始化底层
     ESP_Driver_Init();
-    
-    // 复位
-    ESP_AT_Send("AT+RST");
-    osDelay(3000); // 等待复位完成
+    if (!ESP_AT_SendWaitFor("AT+RST", "ready", 5000)) {
+        /* 个别固件/串口噪声下可能匹配不到 ready，兜底延时避免后续 AT 立刻失败 */
+        osDelay(3000);
+    }
 
     WIFI_ShowStatus("ESP8266", "AT Test...");
-    if (!ESP_AT_Send("AT")) {
+    if (!ESP_AT_SendWaitFor("AT", "OK", 1000)) {
         WIFI_ShowStatus("ESP8266", "No Response");
         return false;
     }
 
-    ESP_AT_Send("ATE0"); // 关闭回显
+    (void)ESP_AT_SendWaitFor("ATE0", "OK", 1000); // 关闭回显（失败不致命）
     osDelay(100);
 
-    if (!ESP_AT_Send("AT+CWMODE=1")) {
+    if (!ESP_AT_SendWaitFor("AT+CWMODE=1", "OK", 1000)) {
         WIFI_ShowStatus("ESP8266", "Mode Fail");
         return false;
     }
@@ -88,7 +88,7 @@ bool WIFI_App_Connect(void) {
     // 1. 连接 WiFi
     WIFI_ShowStatus("WiFi", "Connecting...");
     // 注意：增加超时时间
-    if (!ESP_AT_SendTimeout("AT+CWJAP=\"RT-AC1200_2.4G\",\"Neuron@1234\"", 25000)) {
+    if (!ESP_AT_SendWaitFor("AT+CWJAP=\"RT-AC1200_2.4G\",\"Neuron@1234\"", "OK", 25000)) {
         const char* rx = ESP_AT_GetLastRxSnippet();
         char line2[17];
         memset(line2, 0, sizeof(line2));
@@ -112,14 +112,14 @@ bool WIFI_App_Connect(void) {
 
     // 2. 配置 MQTT 用户
     WIFI_ShowStatus("MQTT", "Config...");
-    if (!ESP_AT_SendTimeout("AT+MQTTUSERCFG=0,1,\"harvey69\",\"device\",\"Neuron@1234\",0,0,\"\"", 2000)) {
+    if (!ESP_AT_SendWaitFor("AT+MQTTUSERCFG=0,1,\"harvey69\",\"device\",\"Neuron@1234\",0,0,\"\"", "OK", 2000)) {
          WIFI_ShowStatus("MQTT", "Cfg Fail");
          return false;
     }
 
     // 3. 连接 MQTT Broker
     WIFI_ShowStatus("MQTT", "Connecting...");
-    if (!ESP_AT_SendTimeout("AT+MQTTCONN=0,\"emqx-prod.neuroncloud.ai\",30333,1", 10000)) {
+    if (!ESP_AT_SendWaitFor("AT+MQTTCONN=0,\"emqx-prod.neuroncloud.ai\",30333,1", "OK", 10000)) {
         WIFI_ShowStatus("MQTT", "Conn Fail");
         return false;
     }
@@ -135,7 +135,7 @@ bool WIFI_MQTT_Publish(const char* topic, const char* msg) {
     char cmd[256];
     snprintf(cmd, sizeof(cmd), "AT+MQTTPUB=0,\"%s\",\"%s\",0,0", topic, msg);
     
-    if (ESP_AT_SendTimeout(cmd, 3000)) {
+    if (ESP_AT_SendWaitFor(cmd, "OK", 3000)) {
         // 可以在这里加一个闪烁或者日志
         return true;
     }

@@ -133,7 +133,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the queue(s) */
   /* creation of TimeQueue */
-  TimeQueueHandle = osMessageQueueNew (16, 32, &TimeQueue_attributes);
+  TimeQueueHandle = osMessageQueueNew (16, sizeof(SNTP_Time_t), &TimeQueue_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* 创建输入事件队列 - 使用 sizeof(InputEvent) 确保大小正确 */
@@ -298,17 +298,22 @@ sntp_exit:
     osThreadExit();
   }
 
-  char time_str[32] = {0};  // 初始化为空，避免发送垃圾数据
+  SNTP_Time_t current_time;
+  char time_str[32] = {0};
 
   /* Infinite loop - 每 10 秒上传一次时间 */
   for(;;)
   {
-    if (SNTP_GetTimeString(time_str, sizeof(time_str))) {
-      osMessageQueuePut(TimeQueueHandle, time_str, 0, 0);
-      WIFI_MQTT_Publish("RADAR/TIME", time_str);
+    if (SNTP_GetTime(&current_time)) {
+      /* 发送结构体到队列供 MENU 使用 */
+      osMessageQueuePut(TimeQueueHandle, &current_time, 0, 0);
+      
+      /* 同时也格式化成字符串发给 MQTT */
+      if (SNTP_GetTimeString(time_str, sizeof(time_str))) {
+        WIFI_MQTT_Publish("RADAR/TIME", time_str);
+      }
     } else {
       WIFI_MQTT_Publish("RADAR/TIME", "Get Time Failed");
-
     }
     osDelay(10000);  // 10 秒
   }

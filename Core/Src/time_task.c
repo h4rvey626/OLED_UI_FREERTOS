@@ -34,7 +34,7 @@ bool SNTP_Config(void) {
     char cmd[64];
     snprintf(cmd, sizeof(cmd), "AT+CIPSNTPCFG=1,%d,\"%s\"", SNTP_TIMEZONE, SNTP_SERVER);       //TCP 连接NTP服务器
     
-    if (!ESP_AT_SendTimeout(cmd, 3000)) {
+    if (!ESP_AT_SendWaitFor(cmd, "OK", 3000)) {
         return false;
     }
     
@@ -53,8 +53,8 @@ bool SNTP_Config(void) {
 bool SNTP_GetTime(SNTP_Time_t* time) {
     if (!time) return false;
     
-    // 使用 ESP_AT_SendTimeout 发送命令并等待 OK（确保收到完整响应）
-    if (!ESP_AT_SendTimeout("AT+CIPSNTPTIME?", 3000)) {
+    // 使用 ESP_AT_SendWaitFor 发送命令并等待 OK（确保收到完整响应）
+    if (!ESP_AT_SendWaitFor("AT+CIPSNTPTIME?", "OK", 3000)) {
         return false;
     }
     
@@ -70,7 +70,6 @@ bool SNTP_GetTime(SNTP_Time_t* time) {
     // 跳过前导空格
     while (*p == ' ') p++;
     
-    // 解析格式: "Sun Jan  4 16:34:45 2026"
     char weekday[4] = {0};
     char month[4] = {0};
     int day, hour, minute, second, year;

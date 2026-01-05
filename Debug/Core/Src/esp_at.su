@@ -1,5 +1,5 @@
 ../Core/Src/esp_at.c:26:13:ESP_AT_GetLastRxSnippet	4	static
 ../Core/Src/esp_at.c:34:13:ESP_AT_SetLastRxSnippet	16	static
 ../Core/Src/esp_at.c:48:6:ESP_AT_Send	16	static
-../Core/Src/esp_at.c:58:6:ESP_AT_SendTimeout	16	static
-../Core/Src/esp_at.c:75:6:ESP_AT_WaitFor	288	static
+../Core/Src/esp_at.c:58:6:ESP_AT_SendWaitFor	24	static
+../Core/Src/esp_at.c:72:6:ESP_AT_WaitFor	288	static

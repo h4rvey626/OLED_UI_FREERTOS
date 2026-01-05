@@ -24,19 +24,20 @@ extern "C" {
 /* Exported functions prototypes ---------------------------------------------*/
 
 /**
-  * @brief  Send AT command and wait for OK
+  * @brief  Send AT command WITHOUT waiting for any response
   * @param  cmd: AT command string (without \r\n)
-  * @retval true if OK received, false otherwise
+  * @retval None
   */
-bool ESP_AT_Send(const char* cmd);
+void ESP_AT_Send(const char* cmd);
 
 /**
-  * @brief  Send AT command with custom timeout
+  * @brief  Send AT command and wait for specific response string
   * @param  cmd: AT command string (without \r\n)
+  * @param  expect: String to wait for (e.g., "OK", "ready", ">")
   * @param  timeout_ms: Timeout in milliseconds
-  * @retval true if OK received, false otherwise
+  * @retval true if found, false if timeout or error
   */
-bool ESP_AT_SendTimeout(const char* cmd, uint32_t timeout_ms);
+bool ESP_AT_SendWaitFor(const char* cmd, const char* expect, uint32_t timeout_ms);
 
 /**
   * @brief  Wait for specific response string

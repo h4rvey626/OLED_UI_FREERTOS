@@ -1,5 +1,7 @@
 
 #include "MENU.h"
+#include "time_task.h"
+#include "weather.h"
 #include "stdio.h"
 #include "main.h"
 #include "string.h"
@@ -721,6 +723,7 @@ void MENU_RunMainMenu(void)
                                                    {"Setting", MENU_RunSettingMenu},    // 设置
                                                    {"Information", MENU_Information},   // 信息
                                                    {"Test Menu", MENU_RunTestLongMenu}, // 测试长菜单
+                                                   {"Weather", MENU_RunWeatherMenu},    // 天气
                                                    {".."}};
 
     static MENU_HandleTypeDef MENU = {.OptionList = MENU_OptionList};
@@ -797,6 +800,12 @@ void MENU_RunTestLongMenu(void)
 
     MENU_RunMenu(&MENU);
 }
+
+void MENU_RunWeatherMenu(void)
+{
+    Weather_Run();
+}
+
 
 void MENU_Information(void)
 {
@@ -1174,48 +1183,43 @@ void CLOCK_Draw(void)
 {
     /**
      * 说明：
-     * - TimeTask 大约每 10s 往 TimeQueue 投递一次时间字符串；
+     * - TimeTask 大约每 10s 往 TimeQueue 投递一个 SNTP_Time_t 结构体；
      * - 这里如果每 10ms 轮询一次队列，绝大多数时候队列都是“空”的；
      * - “队列空”不是错误，不应覆盖显示为 Get Time Failed。
      *
-     * 策略：读取到新时间就更新缓存；读取不到就继续显示上一次时间（首次则显示等待提示）。
+     * 策略：读取到新时间就更新缓存；读取不到就继续显示上一次时间。
      */
-    static char last_time_str[32] = {0};
+    static SNTP_Time_t t;
     static uint8_t has_time = 0;
-    static char year_str[5] = {0};
-    static char month_str[3] = {0};
-    static char day_str[3] = {0};
-    static char hour_str[3] = {0};
-    static char minute_str[3] = {0};
-    static char second_str[3] = {0};
 
     if (TimeQueueHandle != NULL) {
         /* 把队列里可能堆积的多个时间全部取出，仅保留最新的一条 */
-        while (osMessageQueueGet(TimeQueueHandle, last_time_str, NULL, 0) == osOK) {
-            last_time_str[sizeof(last_time_str) - 1] = '\0'; // 确保以 '\0' 结尾
+        while (osMessageQueueGet(TimeQueueHandle, &t, NULL, 0) == osOK) {
             has_time = 1;
         }
     }
 
     if(has_time) {
-    OLED_Clear();
-    OLED_ShowString(45, 0, "Clock", OLED_8X16);
-    strncpy(year_str, last_time_str, 4);
-    strncpy(month_str, last_time_str + 5, 2);
-    strncpy(day_str, last_time_str + 8, 2);
-    strncpy(hour_str, last_time_str + 11, 2);
-    strncpy(minute_str, last_time_str + 14, 2);
-    strncpy(second_str, last_time_str + 17, 2);
-    OLED_ShowString(0, 16, year_str, OLED_8X16); //4*8=32px
-    OLED_ShowString(32, 16, "/", OLED_8X16); //1*8=8px
-    OLED_ShowString(48, 16, month_str, OLED_8X16); //2*8=16px
-    OLED_ShowString(64, 16, "/", OLED_8X16); //1*8=8px
-    OLED_ShowString(80, 16, day_str, OLED_8X16); //2*8=16px
-    OLED_ShowString(0, 32, hour_str, OLED_8X16); //2*8=16px
-    OLED_ShowString(16, 32, ":", OLED_8X16); //1*8=8px
-    OLED_ShowString(24, 32, minute_str, OLED_8X16); //2*8=16px
-    OLED_ShowString(40, 32, ":", OLED_8X16); //1*8=8px
-    OLED_ShowString(48, 32, second_str, OLED_8X16); //2*8=16px
-    OLED_Update();
+        OLED_Clear();
+        OLED_ShowString(45, 0, "Clock", OLED_8X16);
+        
+        // 使用 OLED_ShowNum 直接显示数字
+        OLED_ShowNum(0, 16, t.year, 4, OLED_8X16);
+        OLED_ShowString(32, 16, "/", OLED_8X16);
+        OLED_ShowNum(40, 16, t.month, 2, OLED_8X16);
+        OLED_ShowString(48, 16, "/", OLED_8X16);
+        OLED_ShowNum(56, 16, t.day, 2, OLED_8X16);
+        
+        OLED_ShowNum(0, 32, t.hour, 2, OLED_8X16);
+        OLED_ShowString(16, 32, ":", OLED_8X16);
+        OLED_ShowNum(24, 32, t.minute, 2, OLED_8X16);
+
+        
+        OLED_Update();
+    } else {
+        OLED_Clear();
+        OLED_ShowString(10, 24, "Syncing time...", OLED_6X8);
+        OLED_Update();
     }
 }
+

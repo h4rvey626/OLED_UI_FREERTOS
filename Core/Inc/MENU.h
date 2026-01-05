@@ -134,6 +134,7 @@ void MENU_SystemSetting(void);
 void MENU_AboutSetting(void);
 void MENU_WIFISetting(void);
 void MENU_RunTestLongMenu(void);
+void MENU_RunWeatherMenu(void);
 void Update_FPS_Counter(void);
 InputEvent MENU_ReceiveInputEvent(void);
 uint32_t Get_Current_FPS(void);

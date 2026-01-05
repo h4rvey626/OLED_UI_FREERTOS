@@ -41,29 +41,26 @@ static void ESP_AT_SetLastRxSnippet(const char* s) {
 }
 
 /**
-  * @brief  Send AT command and wait for OK
+  * @brief  Send AT command WITHOUT waiting
   * @param  cmd: AT command string
-  * @retval true if OK, false otherwise
+  * @retval None
   */
-bool ESP_AT_Send(const char* cmd) {
-    return ESP_AT_SendTimeout(cmd, ESP_AT_TIMEOUT_SHORT);
+void ESP_AT_Send(const char* cmd) {
+    if (!cmd) return;
+    // 不清缓冲：由上层决定是否 Flush（有时需要保留前序输出用于匹配）
+    uart_send((const uint8_t*)cmd, strlen(cmd));
+    uart_send((const uint8_t*)"\r\n", 2);
 }
 
 /**
-  * @brief  Send AT command with custom timeout
-  * @param  cmd: AT command string
-  * @param  timeout_ms: timeout in milliseconds
-  * @retval true if success, false otherwise
+  * @brief  Send AT command and wait for specific string
   */
-bool ESP_AT_SendTimeout(const char* cmd, uint32_t timeout_ms) {
+bool ESP_AT_SendWaitFor(const char* cmd, const char* expect, uint32_t timeout_ms) {
+    if (!cmd || !expect) return false;
     ESP_Driver_FlushBuffer();
-
-    // 发送命令
     uart_send((const uint8_t*)cmd, strlen(cmd));
     uart_send((const uint8_t*)"\r\n", 2);
-
-    // 等待响应
-    return ESP_AT_WaitFor("OK", timeout_ms);
+    return ESP_AT_WaitFor(expect, timeout_ms);
 }
 
 /**
