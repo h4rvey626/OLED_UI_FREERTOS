@@ -40,8 +40,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../Core/Inc/tim.h ../Core/Inc/main.h ../Core/Inc/usart.h \
  ../Core/Inc/gpio.h ../Core/Inc/OLED.h ../Core/Inc/OLED_Data.h \
- ../Core/Inc/TIM_EC11.h ../Core/Inc/tim.h ../Core/Inc/MENU.h \
- ../Core/Inc/input.h ../Core/Inc/TIM_EC11.h
+ ../Core/Inc/encoder_driver.h ../Core/Inc/tim.h ../Core/Inc/MENU.h \
+ ../Core/Inc/input.h ../Core/Inc/encoder_driver.h
 ../Core/Inc/main.h:
 C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -88,8 +88,8 @@ C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Pa
 ../Core/Inc/gpio.h:
 ../Core/Inc/OLED.h:
 ../Core/Inc/OLED_Data.h:
-../Core/Inc/TIM_EC11.h:
+../Core/Inc/encoder_driver.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/MENU.h:
 ../Core/Inc/input.h:
-../Core/Inc/TIM_EC11.h:
+../Core/Inc/encoder_driver.h:

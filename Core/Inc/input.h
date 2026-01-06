@@ -8,7 +8,7 @@
 #ifndef INC_INPUT_H_
 #define INC_INPUT_H_
 
-#include "TIM_EC11.h"   
+#include "encoder_driver.h"   
 #include <stdint.h>
 
 // 定义事件类型

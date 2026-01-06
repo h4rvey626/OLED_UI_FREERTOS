@@ -1,7 +1,7 @@
 #include "Game_Dino.h"
 #include "Game_Dino_Data.h"
 #include "OLED.h"
-#include "TIM_EC11.h"
+#include "encoder_driver.h"
 #include "main.h"
 #include <stdlib.h>
 #include <math.h>

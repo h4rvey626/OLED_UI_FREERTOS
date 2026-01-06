@@ -1,0 +1,4 @@
+../Core/Src/encoder_driver.c:24:6:Encoder_Init	8	static
+../Core/Src/encoder_driver.c:31:15:KeyPress	16	static
+../Core/Src/encoder_driver.c:93:9:Encoder_RawDelta	16	static
+../Core/Src/encoder_driver.c:120:9:Encoder_Roll	24	static

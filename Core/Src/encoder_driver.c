@@ -1,10 +1,10 @@
 /*
- * TIM_EC11.C
+ * encoder_driver.c
  *
  *  Created on: Dec 22, 2025
  *      Author: 10637
  */
-#include "TIM_EC11.h"
+#include "encoder_driver.h"
 #include "tim.h"
 
 #define KEY_DEBOUNCE_MS  (20U)
@@ -21,7 +21,7 @@
 // 最小有效间隔（ms）：两次有效输出之间的最小间隔（注意：这里不再丢脉冲，只是限速输出）
 #define ENCODER_MIN_INTERVAL_MS   (2)
 
-void TIM_EC11_Init(void)
+void Encoder_Init(void)
 {
     HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);
 
@@ -247,5 +247,4 @@ int16_t Encoder_Roll(void)
 
     return output;
 } 
-
 

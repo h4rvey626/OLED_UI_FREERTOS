@@ -40,7 +40,7 @@ Core/Src/time_task.o: ../Core/Src/time_task.c ../Core/Inc/time_task.h \
  C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Core/Inc/MENU.h ../Core/Inc/input.h ../Core/Inc/TIM_EC11.h \
+ ../Core/Inc/MENU.h ../Core/Inc/input.h ../Core/Inc/encoder_driver.h \
  ../Core/Inc/tim.h ../Core/Inc/OLED.h ../Core/Inc/OLED_Data.h
 ../Core/Inc/time_task.h:
 ../Core/Inc/esp_at.h:
@@ -88,7 +88,7 @@ C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Pa
 C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../Core/Inc/MENU.h:
 ../Core/Inc/input.h:
-../Core/Inc/TIM_EC11.h:
+../Core/Inc/encoder_driver.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/OLED.h:
 ../Core/Inc/OLED_Data.h:

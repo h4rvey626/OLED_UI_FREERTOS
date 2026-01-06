@@ -4,7 +4,7 @@
 "./Core/Src/MENU.o"
 "./Core/Src/OLED.o"
 "./Core/Src/OLED_Data.o"
-"./Core/Src/TIM_EC11.o"
+"./Core/Src/encoder_driver.o"
 "./Core/Src/esp_at.o"
 "./Core/Src/esp_driver.o"
 "./Core/Src/freertos.o"

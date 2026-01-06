@@ -1,7 +1,7 @@
 #include "Game_Snake.h"
 #include "Game_Snake_Data.h"
 #include "OLED.h"
-#include "TIM_EC11.h"
+#include "encoder_driver.h"
 #include "main.h"
 #include "MENU.h"
 #include "input.h"

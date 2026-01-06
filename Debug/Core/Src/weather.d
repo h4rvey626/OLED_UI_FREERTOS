@@ -1,5 +1,5 @@
 Core/Src/weather.o: ../Core/Src/weather.c ../Core/Inc/weather.h \
- ../Core/Inc/MENU.h ../Core/Inc/input.h ../Core/Inc/TIM_EC11.h \
+ ../Core/Inc/MENU.h ../Core/Inc/input.h ../Core/Inc/encoder_driver.h \
  C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -44,7 +44,7 @@ Core/Src/weather.o: ../Core/Src/weather.c ../Core/Inc/weather.h \
 ../Core/Inc/weather.h:
 ../Core/Inc/MENU.h:
 ../Core/Inc/input.h:
-../Core/Inc/TIM_EC11.h:
+../Core/Inc/encoder_driver.h:
 C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 C:/Users/10637/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:

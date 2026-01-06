@@ -199,8 +199,6 @@ void StartInputTask(void *argument)
 void StartMenuTask(void *argument)
 {
   /* USER CODE BEGIN StartMenuTask */
-	OLED_Init();
-	OLED_Clear();
   UI_State ui_state = UI_MENU;
   /* 等待 WiFi 启动阶段结束（成功/失败都会置位），避免菜单抢占启动提示 */
   if (g_appEventFlags) {

@@ -26,7 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "OLED.h"
-#include "TIM_EC11.h"
+#include "encoder_driver.h"
 #include "MENU.h"
 /* USER CODE END Includes */
 
@@ -96,8 +96,9 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   OLED_Init();
-  TIM_EC11_Init();
+  Encoder_Init();
   OLED_Clear();
+  OLED_Update();
   /* USER CODE END 2 */
 
   /* Init scheduler */

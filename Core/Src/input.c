@@ -5,7 +5,7 @@
  *      Author: 10637
  */
 #include "input.h"
-#include "TIM_EC11.h"
+#include "encoder_driver.h"
 
 InputEvent Input_GetEvent(void) // 获取输入事件
 {

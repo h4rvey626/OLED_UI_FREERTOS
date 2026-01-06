@@ -1,5 +1,5 @@
-#ifndef __TIM_EC11_H
-#define __TIM_EC11_H
+#ifndef __ENCODER_DRIVER_H
+#define __ENCODER_DRIVER_H
 
 
 #include "stm32f4xx_hal.h"
@@ -15,7 +15,7 @@ typedef enum
 
 // EncoderDirection 枚举已移除，请使用 input.h 的 InputType 枚举
 
-void TIM_EC11_Init(void);
+void Encoder_Init(void);
 
 KeyPressState KeyPress(void);
 
@@ -24,7 +24,4 @@ int16_t Encoder_Roll(void);      // 获取消抖后的旋转格数
 int16_t Encoder_RawDelta(void);  // 获取原始增量（内部使用）
 
 #endif
-
-
-
 

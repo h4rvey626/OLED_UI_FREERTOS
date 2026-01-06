@@ -30,7 +30,7 @@ static uint32_t current_fps = 0;
 /** Port 移植接口 * **************************************************************/
 /* 依赖头文件 */
 
-#include "TIM_EC11.h"
+#include "encoder_driver.h"
 #include "OLED.h"
 #include "Game_Snake.h"
 #include "Game_Dino.h"
