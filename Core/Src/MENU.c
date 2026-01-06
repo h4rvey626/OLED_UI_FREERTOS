@@ -668,8 +668,6 @@ void MENU_RunWeatherMenu(void)
 void MENU_Information(void)
 {
     menu_command_callback(BUFFER_CLEAR);
-    
-    // 分别显示每一行，避免重叠
     menu_command_callback(SHOW_STRING, 5, 16, "Menu v2.0", OLED_8X16);
     menu_command_callback(SHOW_STRING, 5, 32, "By: Harvey", OLED_8X16);
     
@@ -920,12 +918,10 @@ void MENU_AboutSetting(void)
 void MENU_WIFISetting(void)
 {
     menu_command_callback(BUFFER_CLEAR);
-
     menu_command_callback(SHOW_STRING, 20, 0, "WIFI Name", OLED_8X16);
     menu_command_callback(SHOW_STRING, 5, 16, "Version: v2.0", OLED_8X16);
     menu_command_callback(SHOW_STRING, 5, 32, "WIFI Status", OLED_8X16);
     menu_command_callback(SHOW_STRING, 5, 48, "Press to return", OLED_8X16);
-
     menu_command_callback(BUFFER_DISPLAY);
 
     while (1)
@@ -944,10 +940,7 @@ void MENU_WIFISetting(void)
 static float scrollbar_current_height = 0.0f;      // 当前滚动条高度（平滑值）
 static float scrollbar_target_height = 0.0f;       // 目标滚动条高度
 
-/**
- * @brief 绘制垂直滚动条（OLED_UI思想 + 菜单系统自带动画）
- * @param menu_handle 菜单句柄
- */
+
 void MENU_DrawScrollBar(MENU_HandleTypeDef *hMENU)
 {
     // 滚动条配置 - 优化后的设计
@@ -1039,14 +1032,6 @@ uint32_t Get_Current_FPS(void)
 
 void CLOCK_Draw(void)
 {
-    /**
-     * 说明：
-     * - TimeTask 大约每 10s 往 TimeQueue 投递一个 SNTP_Time_t 结构体；
-     * - 这里如果每 10ms 轮询一次队列，绝大多数时候队列都是“空”的；
-     * - “队列空”不是错误，不应覆盖显示为 Get Time Failed。
-     *
-     * 策略：读取到新时间就更新缓存；读取不到就继续显示上一次时间。
-     */
     static SNTP_Time_t t;
     static uint8_t has_time = 0;
 

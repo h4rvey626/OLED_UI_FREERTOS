@@ -292,12 +292,10 @@ sntp_exit:
     uint32_t set = APP_EVT_SNTP_DONE | (sntp_ok ? APP_EVT_SNTP_OK : 0U);
     osEventFlagsSet(g_appEventFlags, set);
   }
-
   if (!sntp_ok) {
     WIFI_MQTT_Publish("RADAR/TIME", "SNTP Config Failed");
     osThreadExit();
   }
-
   SNTP_Time_t current_time;
   char time_str[32] = {0};
 

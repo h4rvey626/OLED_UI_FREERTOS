@@ -201,7 +201,7 @@ int DinoGame_Animation(void)
             return 0;
         }
         
-        osDelay(50); // 控制游戏速度
+        osDelay(40); // 控制游戏速度
     }
 }
 

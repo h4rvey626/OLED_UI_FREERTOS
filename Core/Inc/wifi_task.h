@@ -12,7 +12,9 @@
 
 /* WiFi 初始化与连接 */
 bool WIFI_App_Init(void);
-bool WIFI_App_Connect(void);
+bool WIFI_App_ConnectWiFi(void);
+bool WIFI_App_ConnectMQTT(void);
+
 
 /* MQTT 发布 */
 bool WIFI_MQTT_Publish(const char* topic, const char* msg);

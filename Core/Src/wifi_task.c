@@ -20,6 +20,9 @@ static void WIFI_ShowStatus(const char* line1, const char* line2);
 static int WIFI_ParseCWJAP_Code(const char* s);
 static const char* WIFI_CWJAP_CodeToMsg(int code);
 
+/* RST 后短窗口监听到 “WIFI GOT IP” 的标志：用于跳过 CWJAP */
+static bool GOT_IP = false;
+
 /**
   * @brief  Helper to show status on OLED
   */
@@ -55,12 +58,15 @@ static const char* WIFI_CWJAP_CodeToMsg(int code) {
   */
 bool WIFI_App_Init(void) {
     WIFI_ShowStatus("ESP8266", "Resetting...");
-    
+    GOT_IP = false;
     // 初始化底层
     ESP_Driver_Init();
-    if (!ESP_AT_SendWaitFor("AT+RST", "ready", 5000)) {
+    if (!ESP_AT_SendWaitFor("AT+RST", "ready", 3000)) {
         /* 个别固件/串口噪声下可能匹配不到 ready，兜底延时避免后续 AT 立刻失败 */
         osDelay(3000);
+    }
+    if (ESP_AT_WaitFor("WIFI GOT IP", 1000)) {
+        GOT_IP = true;
     }
 
     WIFI_ShowStatus("ESP8266", "AT Test...");
@@ -82,10 +88,9 @@ bool WIFI_App_Init(void) {
 }
 
 /**
-  * @brief  Connect to WiFi and MQTT
+  * @brief  Connect to WiFi only
   */
-bool WIFI_App_Connect(void) {
-    // 1. 连接 WiFi
+bool WIFI_App_ConnectWiFi(void) {
     WIFI_ShowStatus("WiFi", "Connecting...");
     // 注意：增加超时时间
     if (!ESP_AT_SendWaitFor("AT+CWJAP=\"RT-AC1200_2.4G\",\"Neuron@1234\"", "OK", 25000)) {
@@ -108,16 +113,22 @@ bool WIFI_App_Connect(void) {
         return false;
     }
     WIFI_ShowStatus("WiFi", "Connected");
-    osDelay(1000);
+    osDelay(500);
+    return true;
+}
 
-    // 2. 配置 MQTT 用户
+/**
+  * @brief  Connect to MQTT only (assumes WiFi is connected)
+  */
+bool WIFI_App_ConnectMQTT(void) {
+    // 1. 配置 MQTT 用户
     WIFI_ShowStatus("MQTT", "Config...");
     if (!ESP_AT_SendWaitFor("AT+MQTTUSERCFG=0,1,\"harvey69\",\"device\",\"Neuron@1234\",0,0,\"\"", "OK", 2000)) {
          WIFI_ShowStatus("MQTT", "Cfg Fail");
          return false;
     }
 
-    // 3. 连接 MQTT Broker
+    // 2. 连接 MQTT Broker
     WIFI_ShowStatus("MQTT", "Connecting...");
     if (!ESP_AT_SendWaitFor("AT+MQTTCONN=0,\"emqx-prod.neuroncloud.ai\",30333,1", "OK", 10000)) {
         WIFI_ShowStatus("MQTT", "Conn Fail");
@@ -150,7 +161,8 @@ void WIFITask_Entry(void *argument) {
 
     /* 启动阶段只跑一次：有限重试，避免卡住菜单 */
     const uint32_t INIT_RETRY_MAX = 3;
-    const uint32_t CONN_RETRY_MAX = 5;
+    const uint32_t WIFI_RETRY_MAX = 5;
+    const uint32_t MQTT_RETRY_MAX = 5;
 
     bool ok = false;
 
@@ -163,11 +175,28 @@ void WIFITask_Entry(void *argument) {
         osDelay(2000);
     }
 
-    // 连接重试
+    // WiFi 连接重试
+    if (ok) {
+        if (GOT_IP) {
+            /* RST 后已自动拿到 IP：跳过 CWJAP，加快启动 */
+            ok = true;
+        } else {
+            ok = false;
+            for (uint32_t i = 0; i < WIFI_RETRY_MAX; i++) {
+                if (WIFI_App_ConnectWiFi()) {
+                    ok = true;
+                    break;
+                }
+                osDelay(5000);
+            }
+        }
+    }
+
+    // MQTT 连接重试
     if (ok) {
         ok = false;
-        for (uint32_t i = 0; i < CONN_RETRY_MAX; i++) {
-            if (WIFI_App_Connect()) {
+        for (uint32_t i = 0; i < MQTT_RETRY_MAX; i++) {
+            if (WIFI_App_ConnectMQTT()) {
                 ok = true;
                 break;
             }
