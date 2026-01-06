@@ -49,6 +49,20 @@ bool SNTP_GetTime(SNTP_Time_t* time);
  */
 bool SNTP_GetTimeString(char* buf, size_t buf_size);
 
+/* ========= 倒计时功能（从 MENU.c 迁移到 time_task.c） ========= */
+extern uint8_t timer_enabled;          // 定时器启用标志 (0=关闭, 1=启用)
+extern uint16_t timer_seconds;         // 定时器时间(秒)
+extern uint16_t timer_current;         // 当前定时器剩余时间
+extern uint32_t timer_start_time;      // 定时器开始时间
+
+void MENU_StartTimer(uint16_t seconds);
+void MENU_StopTimer(void);
+uint8_t MENU_UpdateTimer(void);
+void MENU_ShowTimer(int16_t x, int16_t y);
+void MENU_ShowTimeUpAlert(void);
+
+void MENU_TimerSetting(void);
+
 
 
 #endif /* INC_TIME_TASK_H_ */

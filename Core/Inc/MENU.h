@@ -10,6 +10,26 @@
 
 /* 自动息屏配置 */
 #define AUTO_SLEEP_ENABLED 1        // 是否启用自动息屏 (1=启用, 0=禁用)
+/* 配置菜单 */
+#define MENU_X 0       // 菜单位置X
+#define MENU_Y 0       // 菜单位置Y
+#define MENU_WIDTH 128 // 菜单宽度
+#define MENU_HEIGHT 64 // 菜单高度
+
+#define MENU_LINE_H 20 // 行高
+#define MENU_PADDING 2 // 内边距
+#define MENU_MARGIN 2  // 外边距
+
+#define MENU_FONT_W 8  // 字体宽度
+#define MENU_FONT_H 16 // 字体高度
+
+#define MENU_BORDER 1         // 边框线条尺寸
+#define IS_CENTERED 1         // 是否居中
+#define IS_OVERSHOOT 1        // 是否过冲 (果冻效果)
+#define OVERSHOOT 0.15       // 过冲量 0 < 范围 < 1;
+#define ANIMATION_SPEED 0.5 // 动画速度 0 < 范围 <= 1;
+
+#define CURSOR_CEILING (((MENU_HEIGHT - MENU_MARGIN - MENU_MARGIN) / MENU_LINE_H) - 1) // 光标限位
 
 /* 全局变量声明 */
 extern uint32_t last_activity_time;    // 最后活动时间
@@ -17,12 +37,6 @@ extern uint8_t screen_sleeping;        // 屏幕睡眠状态
 extern uint8_t sleep_before_brightness; // 睡眠前的亮度值
 extern uint8_t oled_brightness;        // 当前亮度值（0~255）
 extern uint16_t auto_sleep_seconds;    // 可调节的自动睡眠时间(秒)
-
-/* 倒计时功能变量声明 */
-extern uint8_t timer_enabled;          // 定时器启用标志
-extern uint16_t timer_seconds;         // 定时器时间(秒)
-extern uint16_t timer_current;         // 当前定时器剩余时间
-extern uint32_t timer_start_time;      // 定时器开始时间
 
 enum _MENU_StrVarType // 选项字符串附带的变量的数据类型枚举
 {
@@ -112,12 +126,7 @@ void CLOCK_Draw(void);
 void MENU_UpdateActivity(void);
 void MENU_CheckAutoSleep(void);
 
-/* 倒计时功能 */
-void MENU_StartTimer(uint16_t seconds);
-void MENU_StopTimer(void);
-uint8_t MENU_UpdateTimer(void);
-void MENU_ShowTimer(int16_t x, int16_t y);
-void MENU_ShowTimeUpAlert(void);
+/* 倒计时功能声明已迁移到 time_task.h，避免 MENU.h 过度耦合 */
 
 /**********************************************************/
 /* use */

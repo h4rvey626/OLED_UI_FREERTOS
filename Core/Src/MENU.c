@@ -15,12 +15,6 @@ uint8_t sleep_before_brightness = 128;   // 睡眠前的亮度值
 uint8_t oled_brightness = 128;           // 当前亮度值（0~255）
 uint16_t auto_sleep_seconds = 120;        // 可调节的自动睡眠时间(秒) - 默认120秒
 
-/* 倒计时功能相关变量 */
-uint8_t timer_enabled = 0;               // 定时器启用标志 (0=关闭, 1=启用)
-uint16_t timer_seconds = 60;             // 定时器时间(秒)
-uint16_t timer_current = 0;              // 当前定时器剩余时间
-uint32_t timer_start_time = 0;           // 定时器开始时间
-
 /* FPS 显示开关 (1=显示, 0=关闭) */
 #define SHOW_FPS 1
 
@@ -31,26 +25,7 @@ static uint32_t last_fps_time = 0;
 static uint32_t current_fps = 0;
 #endif
 
-/* 配置菜单 */
-#define MENU_X 0       // 菜单位置X
-#define MENU_Y 0       // 菜单位置Y
-#define MENU_WIDTH 128 // 菜单宽度
-#define MENU_HEIGHT 64 // 菜单高度
 
-#define MENU_LINE_H 20 // 行高
-#define MENU_PADDING 2 // 内边距
-#define MENU_MARGIN 2  // 外边距
-
-#define MENU_FONT_W 8  // 字体宽度
-#define MENU_FONT_H 16 // 字体高度
-
-#define MENU_BORDER 1         // 边框线条尺寸
-#define IS_CENTERED 1         // 是否居中
-#define IS_OVERSHOOT 1        // 是否过冲 (果冻效果)
-#define OVERSHOOT 0.10       // 过冲量 0 < 范围 < 1;
-#define ANIMATION_SPEED 0.3 // 动画速度 0 < 范围 <= 1;
-
-#define CURSOR_CEILING (((MENU_HEIGHT - MENU_MARGIN - MENU_MARGIN) / MENU_LINE_H) - 1) // 光标限位
 
 /** Port 移植接口 * **************************************************************/
 /* 依赖头文件 */
@@ -76,13 +51,8 @@ InputEvent MENU_ReceiveInputEvent(void);
  *    - 菜单层：只发命令（显示/光标/边框/读取输入），不关心具体硬件如何实现。
  *    - 设备层：在回调内部把命令映射到 OLED/按键/编码器等驱动函数。
  * 2) 输入事件（确认/返回/旋钮）被采集为标准化的返回值，供菜单状态机消化。
- * 3) 自动息屏数据流：
- *    用户输入 → MENU_UpdateActivity() 刷新 last_activity_time（并在睡眠中唤醒）
- *    主循环周期 → MENU_CheckAutoSleep() 比较当前时刻与 last_activity_time 的差值是否超过 auto_sleep_seconds
- *    若超过 → 记录当前亮度、拉低亮度、标记 screen_sleeping；有输入时再唤醒并恢复亮度。
- * 4) 旋钮计数统一口：Key_Encoder_Take(&Encoder1) 返回有符号增量（取后清零）。
- */
 
+ */
 /// @brief 菜单指令回调函数（使用标准 stdarg.h 实现）
 /// @param  command 指令
 /// @param  ... 可变参数列表根据指令定义
@@ -220,119 +190,7 @@ void MENU_CheckAutoSleep(void)
 #endif
 }
 
-/**
- * @brief 启动定时器
- * @param seconds 定时器秒数
- */
-void MENU_StartTimer(uint16_t seconds)
-{
-    timer_enabled = 1;
-    timer_seconds = seconds;
-    timer_current = seconds;
-    timer_start_time = HAL_GetTick();
-}
-
-/**
- * @brief 停止定时器
- */
-void MENU_StopTimer(void)
-{
-    timer_enabled = 0;
-    timer_current = 0;
-}
-
-/**
- * @brief 更新定时器状态
- * @return 1表示定时器结束，0表示继续
- */
-uint8_t MENU_UpdateTimer(void)
-{
-    if (!timer_enabled) return 0;
-    
-    uint32_t current_time = HAL_GetTick();
-    uint32_t elapsed_seconds = (current_time - timer_start_time) / 1000;
-    
-    if (elapsed_seconds >= timer_seconds) {
-        // 定时器结束
-        timer_enabled = 0;
-        timer_current = 0;
-        return 1;
-    }
-    
-    timer_current = timer_seconds - elapsed_seconds;
-    return 0;
-}
-
-/**
- * @brief 显示倒计时
- * @param x X坐标
- * @param y Y坐标
- */
-void MENU_ShowTimer(int16_t x, int16_t y)
-{
-    if (!timer_enabled) return;
-    
-    char timer_str[16];
-    uint16_t minutes = timer_current / 60;
-    uint16_t seconds = timer_current % 60;
-    
-    if (minutes > 0) {
-        sprintf(timer_str, "%02d:%02d", minutes, seconds);
-    } else {
-        sprintf(timer_str, "00:%02d", seconds);
-    }
-    
-    menu_command_callback(SHOW_STRING, x, y, timer_str, OLED_6X8); // 使用小字体显示定时器
-
-}
-
-/**
- * @brief 显示"时间到"提示
- */
-void MENU_ShowTimeUpAlert(void)
-{
-    // 清除屏幕
-    menu_command_callback(BUFFER_CLEAR);
-    
-    // 显示"时间到"提示
-    menu_command_callback(SHOW_STRING, 32, 20, "TIME UP!", OLED_8X16);
-
-    
-    // 绘制简洁边框
-    OLED_DrawRectangle(5, 15, 118, 35, OLED_UNFILLED);
-    
-    menu_command_callback(BUFFER_DISPLAY);
-    
-    // 闪烁提示效果（减少闪烁次数）
-    for (int i = 0; i < 2; i++) {
-        osDelay(300);  // 使用 osDelay 让出 CPU
-        
-        // 反转显示区域创建闪烁效果
-        OLED_ReverseArea(6, 16, 116, 33);
-        OLED_Update();
-        
-        osDelay(300);  // 使用 osDelay 让出 CPU
-        
-        // 恢复正常显示
-        OLED_ReverseArea(6, 16, 116, 33);
-        OLED_Update();
-    }
-    
-    // 等待按键确认
-    while (1)
-    {
-        InputEvent event = MENU_ReceiveInputEvent();
-        if (event.type == INPUT_ENTER || 
-            event.type == INPUT_BACK ||
-            event.type == INPUT_UP ||
-            event.type == INPUT_DOWN)
-        {
-            MENU_UpdateActivity(); // 更新活动时间
-            break;
-        }
-        osDelay(50);  // 使用 osDelay 让出 CPU
-    }
-}
+/* 倒计时相关实现已迁移到 time_task.c */
 
 /* ******************************************************** */
 
@@ -734,7 +592,7 @@ void MENU_RunMainMenu(void)
 void MENU_RunToolsMenu(void)
 {
     static MENU_OptionTypeDef MENU_OptionList[] = {{"<<<"},
-                                                   {"Timer", NULL},       // 定时器
+                                                   {"Timer", MENU_TimerSetting},       // 定时器
                                                    {"Serial Port", NULL},              // 串口
                                                    {"Oscilloscope", NULL},             // 示波器
                                                    {"PWM Output", NULL},               // PWM 输出
@@ -1207,8 +1065,8 @@ void CLOCK_Draw(void)
         OLED_ShowNum(0, 16, t.year, 4, OLED_8X16);
         OLED_ShowString(32, 16, "/", OLED_8X16);
         OLED_ShowNum(40, 16, t.month, 2, OLED_8X16);
-        OLED_ShowString(48, 16, "/", OLED_8X16);
-        OLED_ShowNum(56, 16, t.day, 2, OLED_8X16);
+        OLED_ShowString(56, 16, "/", OLED_8X16);
+        OLED_ShowNum(64, 16, t.day, 2, OLED_8X16);
         
         OLED_ShowNum(0, 32, t.hour, 2, OLED_8X16);
         OLED_ShowString(16, 32, ":", OLED_8X16);

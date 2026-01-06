@@ -1,4 +1,10 @@
-../Core/Src/time_task.c:16:16:parse_month	3
-../Core/Src/time_task.c:33:6:SNTP_Config	2
-../Core/Src/time_task.c:53:6:SNTP_GetTime	7
-../Core/Src/time_task.c:104:6:SNTP_GetTimeString	4
+../Core/Src/time_task.c:29:6:MENU_StartTimer	1
+../Core/Src/time_task.c:40:6:MENU_StopTimer	1
+../Core/Src/time_task.c:50:9:MENU_UpdateTimer	3
+../Core/Src/time_task.c:73:6:MENU_ShowTimer	3
+../Core/Src/time_task.c:93:6:MENU_ShowTimeUpAlert	6
+../Core/Src/time_task.c:138:16:parse_month	3
+../Core/Src/time_task.c:155:6:SNTP_Config	2
+../Core/Src/time_task.c:175:6:SNTP_GetTime	7
+../Core/Src/time_task.c:226:6:SNTP_GetTimeString	4
+../Core/Src/time_task.c:245:6:MENU_TimerSetting	58
