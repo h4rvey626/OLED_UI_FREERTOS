@@ -18,7 +18,7 @@
 #define ENCODER_START_DEBOUNCE_MS (8)
 // 方向锁定超时（ms）：在此时间内反向脉冲会被忽略（用于抑制转动过程中的抖动反跳）
 #define ENCODER_DIR_LOCK_MS       (40)
-// 最小有效间隔（ms）：两次有效输出之间的最小间隔（注意：这里不再丢脉冲，只是限速输出）
+// 最小有效间隔（ms）：两次有效输出之间的最小间隔
 #define ENCODER_MIN_INTERVAL_MS   (2)
 
 void Encoder_Init(void)
