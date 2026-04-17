@@ -1,0 +1,4 @@
+../Core/Src/encoder_driver.c:27:6:Encoder_Init	1
+../Core/Src/encoder_driver.c:34:15:KeyPress	10
+../Core/Src/encoder_driver.c:95:9:Encoder_RawDelta	2
+../Core/Src/encoder_driver.c:122:9:Encoder_Roll	21

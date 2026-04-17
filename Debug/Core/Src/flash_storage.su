@@ -1,0 +1,5 @@
+../Core/Src/flash_storage.c:11:11:FlashStorage_Init	0	static
+../Core/Src/flash_storage.c:16:6:FlashStorage_IsInConfigRange	0	static
+../Core/Src/flash_storage.c:44:11:FlashStorage_Read	16	static
+../Core/Src/flash_storage.c:60:11:FlashStorage_EraseConfigSector	32	static
+../Core/Src/flash_storage.c:92:11:FlashStorage_Write	48	static

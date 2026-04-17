@@ -1,0 +1,7 @@
+../Core/Src/weather.c:98:13:Weather_DrawCard	2
+../Core/Src/weather.c:30:6:Weather_InitDefault	1
+../Core/Src/weather.c:62:8:Weather_GetCityCount	1
+../Core/Src/weather.c:67:22:Weather_GetCity	2
+../Core/Src/weather.c:73:6:Weather_SetCity	5
+../Core/Src/weather.c:90:6:Weather_AddCity	3
+../Core/Src/weather.c:141:6:Weather_Run	18

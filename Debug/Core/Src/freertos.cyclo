@@ -1,0 +1,5 @@
+../Core/Src/freertos.c:175:6:StartInputTask	2
+../Core/Src/freertos.c:199:6:StartMenuTask	7
+../Core/Src/freertos.c:253:6:StartWIFITask	1
+../Core/Src/freertos.c:267:6:StartTimeTask	10
+../Core/Src/freertos.c:117:6:MX_FREERTOS_Init	1

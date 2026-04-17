@@ -1,0 +1,4 @@
+../Core/Src/TIM_EC11.c:24:6:TIM_EC11_Init	1
+../Core/Src/TIM_EC11.c:31:15:KeyPress	10
+../Core/Src/TIM_EC11.c:93:9:Encoder_RawDelta	2
+../Core/Src/TIM_EC11.c:120:9:Encoder_Roll	19

@@ -1,0 +1,9 @@
+../Core/Src/config_store.c:14:17:crc32_calc	4
+../Core/Src/config_store.c:63:13:sync_to_globals	1
+../Core/Src/config_store.c:45:13:set_defaults	1
+../Core/Src/config_store.c:111:6:Config_Load	5
+../Core/Src/config_store.c:147:6:Config_MarkDirty	1
+../Core/Src/config_store.c:79:6:Config_SetWiFiCredentials	8
+../Core/Src/config_store.c:153:6:Config_FlushIfNeeded	3
+../Core/Src/config_store.c:176:6:Config_ResetDefaults	1
+../Core/Src/config_store.c:185:18:Config_Get	1

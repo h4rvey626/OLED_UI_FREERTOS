@@ -1,0 +1,5 @@
+../Core/Src/freertos.c:175:6:StartInputTask	16	static
+../Core/Src/freertos.c:199:6:StartMenuTask	24	static
+../Core/Src/freertos.c:253:6:StartWIFITask	8	static
+../Core/Src/freertos.c:267:6:StartTimeTask	64	static
+../Core/Src/freertos.c:117:6:MX_FREERTOS_Init	8	static
